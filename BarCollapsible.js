@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { 
-    Animated, 
-    View, 
-    Text, 
-    TouchableHighlight 
+import {
+    Animated,
+    View,
+    Text,
+    TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './style'
@@ -21,7 +21,8 @@ class BarCollapsible extends Component {
             onPressed: null,
             title: '',
             children: null,
-            show: props.showOnStart
+            show: props.showOnStart,
+          onCollapse: null
         };
     }
 
@@ -43,18 +44,18 @@ class BarCollapsible extends Component {
 
     componentWillMount() {
         const {
-            collapsible, 
-            clickable, 
+            collapsible,
+            clickable,
             icon,
             title,
             tintColor,
-            iconSize, 
+            iconSize,
             iconOpened,
             iconActive,
             iconCollapsed,
             showOnStart,
             onPressed
-        } = this.props;
+    } = this.props;
         const {fadeAnim} = this.state;
 
         if (clickable) {
@@ -78,7 +79,7 @@ class BarCollapsible extends Component {
 
     toggleView = () => {
         const {show, iconCollapsed, iconOpened} = this.state;
-
+      this.props.onCollapse();
         this.setState({
             show: !show,
             icon: show ? iconCollapsed : iconOpened
@@ -100,40 +101,40 @@ class BarCollapsible extends Component {
 
     renderCollapsible = () => {
         const {
-            style, 
+            style,
             iconStyle,
-            titleStyle, 
-            tintColor, 
-            iconSize, 
+            titleStyle,
+            tintColor,
+            iconSize,
             children
         } = this.props;
         const {icon, fadeAnim, title} = this.state;
 
         return (
             <View>
-                <TouchableHighlight 
-                    style={styles.barWrapper} 
-                    underlayColor='transparent' 
+                <TouchableHighlight
+                    style={styles.barWrapper}
+                    underlayColor='transparent'
                     onPress={this.toggleView}
                 >
                     <View style={[styles.bar, style]}>
                         <Text style={[styles.title, titleStyle]}>
                             {title}
                         </Text>
-                        <Icon 
-                            name={icon} 
-                            size={iconSize} 
-                            color={tintColor} 
+                        <Icon
+                            name={icon}
+                            size={iconSize}
+                            color={tintColor}
                             style={[styles.icon, iconStyle]}
                         />
                     </View>
                 </TouchableHighlight>
-                { this.state.show &&  
+                { this.state.show &&
                     <Animated.View
                         style={{opacity: fadeAnim}}
                     >
                         {children}
-                    </Animated.View> 
+                    </Animated.View>
                 }
             </View>
         );
@@ -141,28 +142,28 @@ class BarCollapsible extends Component {
 
     renderClickable = () => {
         const {
-            style, 
-            titleStyle, 
-            tintColor, 
-            iconSize, 
+            style,
+            titleStyle,
+            tintColor,
+            iconSize,
             iconStyle
         } = this.props;
         const {icon, title, onPressed} = this.state;
 
         return (
-            <TouchableHighlight 
-                style={styles.barWrapper} 
-                underlayColor='transparent' 
+            <TouchableHighlight
+                style={styles.barWrapper}
+                underlayColor='transparent'
                 onPress={onPressed}
             >
                 <View style={[styles.bar, style]}>
                     <Text style={[styles.title, titleStyle]}>
                         {title}
                     </Text>
-                    <Icon 
-                        name={icon} 
-                        size={iconSize} 
-                        color={tintColor} 
+                    <Icon
+                        name={icon}
+                        size={iconSize}
+                        color={tintColor}
                         style={[styles.icon, iconStyle]}
                     />
                 </View>
